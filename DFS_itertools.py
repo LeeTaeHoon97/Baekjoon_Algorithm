@@ -37,65 +37,28 @@ def permutation(goal,cnt):
             permutation(goal,cnt+1)
             stack.pop()
             visit[i]=0
+def combination_replace(goal,idx,cnt):
+    global lst,comb_r,visit,stack
+    if cnt==goal:
+        comb_r.append(make_arr())
+        return
 
+    for i in range(idx,len(lst)):
+        stack.append(lst[i])
+        combination_replace(goal,i,cnt+1)
+        stack.pop()
+    return
 if __name__ == '__main__':
     lst=[1,2,3,4,5]
     stack=[]
     comb=[]
     perm=[]
+    comb_r=[]
+
     visit=[0 for i in range(len(lst))]
     combination(3,0,0)
     stack=[]            #global 변수 stack combination과 permutation이 공유하므로 초기화해줌
     permutation(3,0)
-
-
-    ##중복순열(C++)
-    # for i in comb:
-    #     print(i)
-    # for i in perm:
-    #     print(i)
-    # print(len(perm))
-    #
-    # # include<iostream>
-    #
-    # # define endl "\n"
-    # # define MAX 5
-    # using
-    # namespace
-    # std;
-    #
-    # int
-    # Arr[MAX];
-    # int
-    # Select[MAX];
-    #
-    # void
-    # DFS(int
-    # Idx, int
-    # Cnt)
-    # {
-    # if (Cnt == 3)
-    # {
-    #     cout << " { ";
-    # for (int i = 0; i < 3; i++)
-    # {
-    #     cout << Select[i] << " ";
-    # }
-    # cout << "} " << endl;
-    # return;
-    # }
-    #
-    # for (int i = Idx; i < MAX; i++)
-    # {
-    #     Select[Cnt] = Arr[i];
-    #     DFS(i, Cnt + 1);
-    # }
-    # }
-    #
-    # int
-    # main(void)
-    # {
-    # for (int i = 0; i < MAX; i++) Arr[i] = i + 1;
-    # DFS(0, 0);
-    # }
-    #
+    stack = []
+    combination_replace(3,0,0)
+    print(comb_r)
