@@ -38,7 +38,7 @@ def permutation(goal,cnt):
             stack.pop()
             visit[i]=0
 def combination_replace(goal,idx,cnt):
-    global lst,comb_r,visit,stack
+    global lst,comb_r,stack
     if cnt==goal:
         comb_r.append(make_arr())
         return
@@ -48,12 +48,25 @@ def combination_replace(goal,idx,cnt):
         combination_replace(goal,i,cnt+1)
         stack.pop()
     return
+
+def product(goal,cnt):
+    global stack,lst,prod
+    if cnt==goal:
+        prod.append(make_arr())
+        return
+
+    for i in range(len(lst)):
+        stack.append(lst[i])
+        product(goal,cnt+1)
+        stack.pop()
+
 if __name__ == '__main__':
     lst=[1,2,3,4,5]
     stack=[]
     comb=[]
     perm=[]
     comb_r=[]
+    prod=[]
 
     visit=[0 for i in range(len(lst))]
     combination(3,0,0)
@@ -61,49 +74,7 @@ if __name__ == '__main__':
     permutation(3,0)
     stack = []
     combination_replace(3,0,0)
-    print(comb_r)
-
-
-# product
-# # include<iostream>
-#
-# # define endl "\n"
-# # define MAX 5
-# using
-# namespace
-# std;
-#
-# int
-# Arr[MAX];
-# int
-# Select[MAX];
-#
-# void
-# DFS(int
-# Cnt)
-# {
-# if (Cnt == 3)
-# {
-#     cout << " { ";
-# for (int i = 0; i < 3; i++)
-# {
-#     cout << Select[i] << " ";
-# }
-# cout << "} " << endl;
-# return;
-# }
-#
-# for (int i = 0; i < MAX; i++)
-# {
-#     Select[Cnt] = Arr[i];
-#     DFS(Cnt + 1);
-# }
-# }
-#
-# int
-# main(void)
-# {
-# for (int i = 0; i < MAX; i++) Arr[i] = i + 1;
-# DFS(0);
-# }
+    stack=[]
+    product(3,0)
+    print(len(prod))
 
