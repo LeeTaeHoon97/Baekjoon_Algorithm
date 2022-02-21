@@ -4,77 +4,75 @@ input = sys.stdin.readline
 
 """
 """
-def make_arr():
-    global  stack
+def deep_copy(arr):
     temp = []
-    for i in stack:
+    for i in arr:
         temp.append(i)
     return temp
 
-def combination(goal,idx,cnt):
-    global lst,comb,visit,stack
+def combination(goal,cnt,lst,idx,stack=[]):
+    global comb,visit
     if cnt==goal:
-        comb.append(make_arr())
+        comb.append(deep_copy(stack))
         return
     for i in range(idx,len(lst)):       # 조합은 1 2 3 과 2 1 3이 같은값이므로, 시작지점보다 작은 수가 이후 오지 않게(2 ,1 -> X) 한다.
-        if visit[i]==0:
+        if not visit[i]:                # 중복체크
             visit[i]=1
             stack.append(lst[i])
-            combination(goal,i,cnt+1)
+            combination(goal,cnt+1,lst,i,stack)
             stack.pop()
-            visit[i]=0
+            visit[i] = 0
 
-def permutation(goal,cnt):
-    global lst,perm,visit,stack
+def permutation(goal,cnt,lst,stack=[]):
+    global perm,visit
     if cnt==goal:
-        perm.append(make_arr())
+        perm.append(deep_copy(stack))
         return
 
     for i in range(len(lst)):
-        if visit[i]==0:
+        if not visit[i]:                # 중복체크
             visit[i]=1
             stack.append(lst[i])
-            permutation(goal,cnt+1)
+            permutation(goal,cnt+1,lst,stack)
             stack.pop()
             visit[i]=0
-def combination_replace(goal,idx,cnt):
-    global lst,comb_r,stack
+def combination_replace(goal,cnt,lst,idx,stack=[]):
+    global comb_r
     if cnt==goal:
-        comb_r.append(make_arr())
+        comb_r.append(deep_copy(stack))
         return
 
     for i in range(idx,len(lst)):
         stack.append(lst[i])
-        combination_replace(goal,i,cnt+1)
+        combination_replace(goal,cnt+1,lst,i,stack)
         stack.pop()
     return
 
-def product(goal,cnt):
-    global stack,lst,prod
+def product(goal,cnt,lst,stack=[]):
+    global prod
     if cnt==goal:
-        prod.append(make_arr())
+        prod.append(deep_copy(stack))
         return
 
     for i in range(len(lst)):
         stack.append(lst[i])
-        product(goal,cnt+1)
+        product(goal,cnt+1,lst,stack)
         stack.pop()
 
 if __name__ == '__main__':
     lst=[1,2,3,4,5]
-    stack=[]
+    visit=[0 for i in range(len(lst))]
     comb=[]
     perm=[]
     comb_r=[]
     prod=[]
 
-    visit=[0 for i in range(len(lst))]
-    combination(3,0,0)
-    stack=[]            #global 변수 stack combination과 permutation이 공유하므로 초기화해줌
-    permutation(3,0)
-    stack = []
-    combination_replace(3,0,0)
-    stack=[]
-    product(3,0)
+    combination(3,0,lst,0)
+    permutation(3,0,lst)
+    combination_replace(3,0,lst,0)
+    product(3,0,lst)
+    print(comb)
+    print(perm)
+    print(comb_r)
     print(len(prod))
 
