@@ -1,0 +1,29 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner scanner = new Scanner(System.in);
+		String a= scanner.next();
+		String b="";
+		
+		int zero_str=0;
+		int one_str=0;
+		String temp="";
+		for(int i=0;i<a.length()-1;i++)
+		{	temp=Character.toString(a.charAt(i));
+			
+			if(!temp.equals(Character.toString(a.charAt(i+1))))
+			{
+				if(temp.equals("0"))zero_str+=1;
+				else if(temp.equals("1")) one_str+=1;
+			}
+		}
+		temp=Character.toString(a.charAt(a.length()-1));
+		if(temp.equals("0"))zero_str+=1;
+		else if(temp.equals("1")) one_str+=1;
+		System.out.println(Math.min(zero_str,one_str));
+		
+	}
+}
