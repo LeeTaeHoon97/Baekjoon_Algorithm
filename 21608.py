@@ -11,7 +11,8 @@ input = sys.stdin.readline
 
 1초는 약 1억번의 탐색시간
 n의 최대범위는 20이므로 시간초과가 걸릴일은 없어보임.
-
+-----------------------------------------틀림
+func2 의 전체탐색부분 로직 오류
 """
 
 def show(lst):
@@ -20,26 +21,27 @@ def show(lst):
     print('--------------------------')
 
 def simul(board,students):
-    global n
+    global n ,stu
     def func1(f):
         temp=set()
         res=[]
         for r in range(1,n+1):
             for c in range(1,n+1):
                 if board[r][c] in f:
-                    if r-1>0:
+                    if r-1>0 and board[r-1][c]==0:
                         bboard[r-1][c]+=1
                         temp.add((r-1,c))
-                    if r+1<n+1:
+                    if r+1<n+1and board[r+1][c]==0:
                         bboard[r+1][c]+=1
                         temp.add((r+1,c))
-                    if c-1>0:
+                    if c-1>0 and board[r][c-1]==0:
                         bboard[r][c-1]+=1
                         temp.add((r,c-1))
-                    if c+1<n+1:
+                    if c+1<n+1 and board[r][c+1]==0:
                         bboard[r][c+1]+=1
                         temp.add((r,c+1))
         Max=-1
+
         for i in temp:
             y,x=i
             if Max<bboard[y][x]:
@@ -47,45 +49,49 @@ def simul(board,students):
                 res=[]
             if Max==bboard[y][x]:
                 res.append([y,x])
-        print(res,len(res))
         return (False,res)if len(res)==1 else (True,res)
 
     def func2(lst,b):
         def get_cnt(r,c):
-            cnt=0
-            if r - 1 > 0 and b[r - 1][c] == 0:
-                cnt+=1
-            if r + 1 < n + 1 and b[r + 1][c] == 0:
-                cnt += 1
-            if c - 1 > 0 and b[r][c - 1] == 0:
-                cnt += 1
-            if c + 1 < n + 1 and b[r][c + 1] == 0:
-                cnt += 1
-            return [cnt,r,c]
-        Max=0
-        t=[]
+            if b[r][c]==0:
+                cnt=0
+                if r - 1 > 0 and b[r - 1][c] == 0:
+                    cnt+=1
+                if r + 1 < n + 1 and b[r + 1][c] == 0:
+                    cnt += 1
+                if c - 1 > 0 and b[r][c - 1] == 0:
+                    cnt += 1
+                if c + 1 < n + 1 and b[r][c + 1] == 0:
+                    cnt += 1
+                return [cnt,r,c]
+            else:
+                return False
+
         cnt=[]
         if len(lst)>1:
             for r,c in lst:
                 cnt.append(get_cnt(r,c))
-            cnt.sort(key=lambda x:x[1])
             cnt.sort(key=lambda x:x[2])
-            cnt.sort(key=lambda x:x[0])
+            cnt.sort(key=lambda x:x[1])
+            cnt.sort(key=lambda x:x[0],reverse=True)
             return cnt[0]
         else:           #전체탐색
             for r in range(1,n+1):
                 for c in range(1,n+1):
-                    cnt.append(get_cnt(r,c))
-            cnt.sort(key=lambda x:x[1])
+                    ccnt=get_cnt(r, c)
+                    if ccnt:
+                        cnt.append(ccnt)
             cnt.sort(key=lambda x:x[2])
-            cnt.sort(key=lambda x:x[0])
-            return cnt[-1]
+            cnt.sort(key=lambda x:x[1])
+            cnt.sort(key=lambda x:x[0],reverse=True)
+            return cnt[0]
 
 
     for student in students:
         bboard=deepcopy(board)
         stu,fav=student[0],student[1::]         #student,favorite
         val_func1=func1(fav)
+
         if val_func1[0]:
             _,y,x=func2(val_func1[1],board)
             board[y][x]=stu
@@ -127,5 +133,5 @@ if __name__ == '__main__':
 
     b=simul(board,students)
     ans=get_ans(b,students)
-    show(board)
+    # show(board)
     print(ans)
