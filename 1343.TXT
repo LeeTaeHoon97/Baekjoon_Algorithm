@@ -1,0 +1,30 @@
+package java_algo;
+
+import java.util.*;
+
+
+
+/*
+ * 사전순으로 앞선다. 즉 BBBB와 AAAA일 경우 AAAA가 우선 
+ * 다르게 말할경우 X가 2개만 올경우만 BB 아닐경우 AAAA
+ * 
+ * --------------------
+ * java의 split은 파라미터로 정규식을 사용함
+ * "."은 임의의 한 문자를 의미하게 되므로 "[.]"를 사용함
+ * 
+ * 질문 : java는 무한히 증가되는 리스트를 만들수 있나?
+ * 
+ * */
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner scanner = new Scanner(System.in);
+		String a= scanner.next();
+		String[] b=a.split("[.]");
+		System.out.println((a));
+		System.out.println(Arrays.toString(b));
+		
+	}
+}
