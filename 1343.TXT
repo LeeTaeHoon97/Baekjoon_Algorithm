@@ -23,8 +23,40 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 		String a= scanner.next();
 		String[] b=a.split("[.]");
-		System.out.println((a));
-		System.out.println(Arrays.toString(b));
+		String ans="";
+		
+		ArrayList<String> res=new ArrayList<>();
+		
+		for (String i : b) {
+			String t="";
+			if(i.length()%2!=0)
+				{System.out.println("-1");System.exit(0);}
+			
+			else {
+				String temp=i;
+				while (temp.length()>0) {
+					if (temp.length()>2) {
+						t+="AAAA";
+						temp=temp.substring(4);
+						continue;
+					}
+					else if (temp.length()>0) {
+						t+="BB";
+						temp=temp.substring(2);
+					}
+					
+					res.add(t);
+				}
+			}
+		}
+		for(String i : res.subList(0,res.size()-1))
+		{
+			ans+=i;
+			ans+=".";
+			
+		}ans+=res.get(res.size() - 1);
+		System.out.println(ans);
+		
 		
 	}
 }
