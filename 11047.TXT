@@ -1,0 +1,40 @@
+package java_algo;
+
+import java.util.*;
+import java.io.*;
+
+
+/*
+ */
+
+public class Main {
+
+	public static void main(String[] args) throws IOException{
+		// TODO Auto-generated method stub
+	BufferedReader bf=new BufferedReader(new InputStreamReader(System.in)); 
+	String a[]=bf.readLine().split(" ");
+	ArrayList<Integer> lst=new ArrayList<>();
+	int N=Integer.parseInt(a[0]);
+	int K=Integer.parseInt(a[1]);
+	
+	int ans=0;
+	for(int i=0;i<N;i++)
+		{
+			int num=Integer.parseInt(bf.readLine());
+			if(num>K)break;
+			else lst.add(num);
+		}
+	int i=lst.size()-1;
+	while(K>0)
+		{ 
+			if(K>=lst.get(i))
+				{	
+					K-=lst.get(i);
+					ans+=1;
+				}
+			else i-=1;
+		}
+	System.out.println(ans);
+	
+	}
+}
