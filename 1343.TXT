@@ -12,7 +12,8 @@ import java.util.*;
  * java의 split은 파라미터로 정규식을 사용함
  * "."은 임의의 한 문자를 의미하게 되므로 "[.]"를 사용함
  * 
- * 질문 : java는 무한히 증가되는 리스트를 만들수 있나?
+ * -----------------------------스플릿을 할 필요가 있는가?
+ * ...의 개수를 복사해야 하므로 무조건 한번 전체 탐색을 해야됨
  * 
  * */
 
@@ -22,41 +23,51 @@ public class Main {
 		// TODO Auto-generated method stub
 		Scanner scanner = new Scanner(System.in);
 		String a= scanner.next();
-		String[] b=a.split("[.]");
-		String ans="";
-		
-		ArrayList<String> res=new ArrayList<>();
-		
-		for (String i : b) {
-			String t="";
-			if(i.length()%2!=0)
-				{System.out.println("-1");System.exit(0);}
-			
-			else {
-				String temp=i;
-				while (temp.length()>0) {
-					if (temp.length()>2) {
-						t+="AAAA";
-						temp=temp.substring(4);
-						continue;
-					}
-					else if (temp.length()>0) {
-						t+="BB";
-						temp=temp.substring(2);
-					}
-					
-					res.add(t);
-				}
-			}
-		}
-		for(String i : res.subList(0,res.size()-1))
+		ArrayList<String> ans=new ArrayList<String>();
+		String temp="";
+		int i=0;
+		while(i<a.length())
 		{
-			ans+=i;
-			ans+=".";
-			
-		}ans+=res.get(res.size() - 1);
-		System.out.println(ans);
+			Character val=a.charAt(i);
+			if(val.equals('.'))
+			{	
+				if(temp.length()%2!=0) {System.out.println("-1");System.exit(0);}
+				while(temp.length()>0) {
+				if(temp.length()>2)
+				{	
+					temp=temp.substring(4);
+					ans.add("AAAA");
+				}
+				else if(temp.length()>0)
+				{  	
+					temp=temp.substring(2);
+					ans.add("BB");
+				}
+				}
+				ans.add(Character.toString(val));
+			}
+			else
+			{
+				temp+=val;
+				
+			}i++;
+		}
+		if(temp.length()%2!=0) {System.out.println("-1");System.exit(0);}
+		while(temp.length()>0) {
+		if(temp.length()>2)
+		{
+			temp=temp.substring(4);
+			ans.add("AAAA");
+		}
+		else if(temp.length()>0)
+		{  
+			temp=temp.substring(2);
+			ans.add("BB");
+		}}
 		
-		
+		System.out.println(String.join("",ans));
 	}
+		
+		
 }
+
